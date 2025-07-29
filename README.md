@@ -286,8 +286,6 @@ choses certaines etape sont verifier nous avons ()
     // Après 1 seconde
     Le fil principal a toujours la priorité même s'il bloque le script pendant un temps supérieur au timeout indiqué.
 
-
-
 ## 11. Promise
 
     La nature asynchrone du JavaScript pose souvent des problèmes en terme d'organisation avec une sur-utilisation des callbacks.
@@ -361,6 +359,7 @@ choses certaines etape sont verifier nous avons ()
     Promise.race()
 
 ## 12. Appel http avec fetch
+
     La méthode fetch() permet de faire des appels HTTP afin de récupérer des ressources sur le réseau et utilise le système de promesse que l'on a vu précédemment.
     Le premier paramètre sera souvent une chaîne de caractères indiquant l'URL de la ressource à aller récupérer et le second paramètre sera un objet d'options spécifiant les informations à envoyer avec la requête (méthode, en tête...)
     
@@ -399,4 +398,31 @@ choses certaines etape sont verifier nous avons ()
     },
     body: JSON.stringify({title: 'Hello world'})
     })
+
+## 13. Modules
+
+    Créer tout le code dans un seul et même fichier n'est pas forcément pérenne sur le long terme. Le système de module va permettre de morceler le code en plusieurs fichiers afin de mieux l'organiser.
+    Dans un fichier il est possible d'exporter des variables pour les rendre disponibles.
+    
+    export const sum = (items) => items.reduce((acc, v) => acc + v, 0)
+    Ensuite on peut importer cette variable dans notre code depuis un autre fichier
+    
+    import { sum } from './functions/numbers.js'
+    // On peut aussi renommer pour éviter les conflits
+    import { sum as sumObject } from './functions/objects.js'
+    
+    console.log(sum([2, 8, 10]))
+    Il est aussi possible de créer un export par défaut qui pourra être importé directement
+    
+    // functions/numbers.js
+    export default (items) => items.reduce((acc, v) => acc + v, 0)
+    
+    // main.js
+    import sum from './functions/objects.js'
+    console.log(sum([2, 8, 10]))
+    
+    Import asynchrone
+    L'import peut aussi être fait de manière asynchrone en utilisant import comme une fonction
+    
+    const {sum} = await import('./functions/numbers.js')
 
