@@ -426,3 +426,48 @@ choses certaines etape sont verifier nous avons ()
     
     const {sum} = await import('./functions/numbers.js')
 
+## 14. Commentaires et JSDoc
+
+    Dans ce chapitre nous allons nous pencher sur les commentaires et comment les rendre efficaces. Les commentaires permettent d'améliorer la compréhension du code et doivent être un réflexe dès lors que l'on écrit des fonctions complexes.
+    
+    Pourquoi plutôt que comment !
+    En premier lieu, sachez que le code est explicite et le choix des noms des variables et des fonctions permet en grande partie de comprendre ce que fait votre code. Par exemple, le rôle d'une fonction canDrive() semble évident et écrire un commentaire expliquant cela est redondant.
+    
+    /**
+    * Vérifie si l'utilisateur peut conduire, on vérifie l'age de l'utilisateur et aussi son pays
+      */
+      function canDrive ({age, country}) {
+    
+    }
+    Les commentaires doivent apporter du contexte et on essaiera plutôt d'expliquer le pourquoi et de donner des détails techniques pour éviter les erreurs.
+    
+    /**
+    * Vérifie si l'utilisateur peut conduire (conduite accompagnée incluse)
+      *
+      * https://en.wikipedia.org/wiki/List_of_minimum_driving_ages
+        */
+        function canDrive ({age, country}) {
+        // A la réunion un permis de conduire accompagné existe à partir de 15 ans
+        if (age >= 15 && country === "RE") {
+        return true
+        }
+        }
+        Il est aussi possible d'utiliser des commentaires en suivant les spécifications de la JSDoc qui pourront être compris par votre éditeur pour offrir une meilleur autocomplétion et compréhension du code.
+    
+    /**
+    * Vérifie si l'utilisateur peut conduire (conduite accompagnée incluse)
+      *
+      * https://en.wikipedia.org/wiki/List_of_minimum_driving_ages
+      *
+      * @param {number} age
+      * @param {string} country Le pays sur 2 lettres (exemple: "FR", "EN", ...)
+      * @returns {boolean}
+      * @throws {InvalidCountryException}
+        */
+        function canDrive ({age, country}) {
+        // A la réunion un permis de conduite accompagnée existe à partir de 15 ans
+        if (age >= 15 && country === "RE") {
+        return true
+        }
+        }
+        Il est possible d'utiliser différents types qui sont expliqués sur la page @type de la documentation JSDoc.
