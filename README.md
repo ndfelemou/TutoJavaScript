@@ -117,6 +117,7 @@ choses certaines etape sont verifier nous avons ()
     }
 
 ## 8. Les fonctions usuelles
+
     Dans ce chapitre nous allons passer en revue les fonctions utiles que vous êtes le plus susceptible d'utiliser.
     
     Les fonctions sur les nombres
@@ -230,4 +231,58 @@ choses certaines etape sont verifier nous avons ()
     
     const a = {x: 3, y: 2}
     const b = {...a, width: 10, height: 10} // {x: 3, y:2, width: 10, height: 10}
+
+## 10. Les timers
+
+    Si on souhaite éxécuter du code après une durée précise ou à un intervalle régulier 
+    on aura la possibilité d'utiliser les fonctions setTimeout() et setInterval().
+    1. setTimeout
+    setTimeout(callback, duration) permet d'attendre une durée spécifique, définie en millisecondes, avant de lancer le
+    code du callback passé en premier paramètre.
+    Cette fonction renvoie un entier qui pourra ensuite être utilisé dans la méthode clearTimeout pour annuler le timeout.
+    
+    const t = setTimeout(() => {
+        console.log('10 secondes')
+    }, 10_000)
+    // clearTimeout(t) permettra de supprimer le timer
+
+    2. setInterval
+    setInterval(callback, duration) permet d'exécuter le callback passé en premier paramètre à intervalle régulier. 
+    Cette fonction renvoie un entier qui pourra ensuite être utilisé dans la méthode clearInterval pour supprimer l'intervalle.
+    
+    const t = setInterval(() => {
+        console.log('+1')
+    }, 10_000)
+    // clearInterval(t) permettra de supprimer l'intervalle
+
+    3. Code asynchrone
+    Le JavaScript a comme particularité d'être capable de fonctionner de manière asynchrone et peut donc continuer à exécuter du code pendant certaines opérations, et c'est le cas avec les timers.
+
+    console.log('Timeout')
+    setTimeout(() => {
+        console.log("Après 1 seconde")
+    }, 1000)
+    console.log('/Timeout')
+    // Timeout
+    // /Timeout
+    // Après 1 seconde
+    Le code ne s'exécutera pas de façon linéaire mais suivra en premier lieu le fil principal d'exécution
+
+    console.log('Timeout')
+    setTimeout(// Le code de la fonction sera mis en attente en interne)
+    console.log('/Timeout')
+    Une fois que le fil principal a fini de s'exécuter les callback asynchrones sont exécutés lorsque le temps est écoulé.
+
+    console.log("Après 1 seconde")
+    Ainsi, même avec un timeout de 0 seconde l'ordre d'exécution restera le même.
+
+    console.log('Timeout')
+    setTimeout(() => {
+        console.log("Après 1 seconde")
+    }, 0)
+    console.log('/Timeout')
+    // Timeout
+    // /Timeout
+    // Après 1 seconde
+    Le fil principal a toujours la priorité même s'il bloque le script pendant un temps supérieur au timeout indiqué.
 
