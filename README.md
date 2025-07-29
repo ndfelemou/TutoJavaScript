@@ -286,3 +286,117 @@ choses certaines etape sont verifier nous avons ()
     // Après 1 seconde
     Le fil principal a toujours la priorité même s'il bloque le script pendant un temps supérieur au timeout indiqué.
 
+
+
+## 11. Promise
+
+    La nature asynchrone du JavaScript pose souvent des problèmes en terme d'organisation avec une sur-utilisation des callbacks.
+
+    Les Promise
+    Les Promise permettent une approche différente et pourront être accompagnées d'une syntaxe spécifique pour rendre le code plus simple et lisible.
+    
+    Une promesse se construit avec une fonction qui recevra 2 callbacks que l'on pourra appeler en cas de succès ou d'échec de la logique
+    
+    function wait (duration) {
+    return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(duration), duration)
+    })
+    }
+    Une Promise peut être dans un de ces 3 états :
+    
+    pending (en attente) : état initial, la promesse n'est ni remplie, ni rompue ;
+    fulfilled (tenue) : l'opération a réussi ;
+    rejected (rompue) : l'opération a échoué.
+    On pourra utiliser 3 méthodes pour suivre la résolution de la promesse.
+    
+    .then(callback), si la promesse a été résolue
+    .catch(callback), si la promesse a échoué
+    .finally(callback), si la promesse a échoué ou a été tenue
+    wait(2000)
+    .then(() => {
+    // Ce code sera appelé si la promesse est tenue
+    })
+    .catch(() => {
+    // Ce code sera appelé si la promesse est rompue
+    })
+    .finally(() => {
+    // Ce code sera appelé quoi qu'il arrive
+    })
+    Si le callback utilisé dans l'une de ces méthode renvoie une valeur (ou une promesse) alors le retour de la méthode sera considéré comme une nouvelle Promise.
+    
+    wait(2000)
+    .then(() => 'hello')
+    .then((v) => console.log(v)) // 'hello'
+    De la même manière un throw créera une Promise qui sera rejected.
+    
+    Await & Async
+    L'utilisation des Promise résout partiellement le problème du "callback hell" mais la syntaxe reste lourde. Heureusement, il existe des mots clefs qui permettent de simplifier les choses. Une méthode peut être déclarée comme asynchrone grâce au mot clef async. Dans ce cas, le retour de la fonction sera une promesse.
+    
+    async function maFonction () {
+    return 4
+    }
+    console.log(maFonction()) // Promise {<fulfilled>: 4}
+    Dans une fonction asynchrone il est possible d'utiliser le mot clef await pour attendre la résolution d'une Promise et obtenir le résultat.
+    
+    async function maFonction () {
+    const response = await autreFonctionAsynchrone()
+    return response.data
+    }
+    Si la Promise du await échoue on pourra capturer l'erreur à l'aide de la syntaxe try..catch classique.
+    
+    async function maFonction () {
+    try {
+    const response = await autreFonctionAsynchrone()
+    return response.data
+    } catch (e) {
+    
+        }
+    }
+    Combiner les Promise
+    L'objet Promise possède en plus des méthodes qui permettent de combiner les Promise pour suivre la résolution de plusieurs Promise en parallèle.
+    
+    Promise.all()
+    Promise.allSettled()
+    Promise.any()
+    Promise.race()
+
+## 12. Appel http avec fetch
+    La méthode fetch() permet de faire des appels HTTP afin de récupérer des ressources sur le réseau et utilise le système de promesse que l'on a vu précédemment.
+    Le premier paramètre sera souvent une chaîne de caractères indiquant l'URL de la ressource à aller récupérer et le second paramètre sera un objet d'options spécifiant les informations à envoyer avec la requête (méthode, en tête...)
+    
+    fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
+    .then(r => console.log('La réponse', r))
+    La promesse est résolue avec un objet Response qui contiendra des informations sur le retour fait par le serveur. Cet objet contiendra notamment une propriété ok qui sera vraie sur la status de la réponse est compris entre 200 et 299 (les redirects sont pris suivi lors de l'appel HTTP)
+    On aura aussi 2 méthodes intéréssantes :
+    
+    text() qui renverra le texte de la réponse
+    json() qui parsera la réponse au format JSON.
+    fetch('https://jsonplaceholder.typicode.com/posts?_limit=10',{
+    headers: {
+    Accept: 'application/json'
+    }
+    })
+    .then(r => {
+    if (r.ok) {
+    return r.json()
+    } else {
+    throw new Error('Erreur serveur', {cause: r})
+    }
+    })
+    .then(posts => {
+    console.log('La liste des articles : ', posts)
+    })
+    .catch(e => {
+    console.error('Une erreur est survenue', e)
+    })
+    On peut aussi utiliser cette méthode pour envoyer des données à un serveur au format JSON.
+    
+    fetch('https://jsonplaceholder.typicode.com/posts',{
+    method: 'POST',
+    headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({title: 'Hello world'})
+    })
+
