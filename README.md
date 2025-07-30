@@ -471,3 +471,43 @@ choses certaines etape sont verifier nous avons ()
         }
         }
         Il est possible d'utiliser différents types qui sont expliqués sur la page @type de la documentation JSDoc.
+
+## 15. L'Objet Date
+
+    Dans ce chapitre nous allons voir comment utiliser l'objet pour représenter une date en JavaScript. Cet objet peut se construire de différentes façons.
+    
+    new Date()
+    new Date(timestampInMilliseconds)
+    new Date(dateString)
+    
+    new Date(year, monthIndex)
+    new Date(year, monthIndex, day)
+    new Date(year, monthIndex, day, hours)
+    new Date(year, monthIndex, day, hours, minutes)
+    new Date(year, monthIndex, day, hours, minutes, seconds)
+    new Date(year, monthIndex, day, hours, minutes, seconds, milliseconds)
+    Les mois commencent à 0
+    
+    On obtient alors un objet sur lequel on peut récupérer différentes informations à l'aide de méthodes comme getDate(), getFullYear(), getMonth() et que l'on pourra aussi manipuler avec des méthodes comme setDate(), setFullYear(), setMonth() ou autre.
+    
+    Enfin, il est possible de formatter la date en suivant différents standards grâce aux méthodes toISOString(), toUTCString() et toLocaleString().
+    
+    Exercices
+    addDays()
+    Créer une fonction qui permet d'ajouter un certain nombre de jours à une date.
+    
+    const today = new Date()
+    const tomorrow = addDays(today, 1)
+    console.log(today, tomorrow)
+    
+    addInterval
+    Créer une fonction qui permet d'ajouter à la fois des jours, heures, minutes... à une date.
+    
+    const today = new Date();
+    const future = addInterval(today, {
+    [MONTHS]: 2,
+    [DAYS]: 1,
+    [MINUTES]: 3,
+    })
+    console.log(today, future)
+
